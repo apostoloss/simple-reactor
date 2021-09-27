@@ -75,7 +75,7 @@ def get_user(user_id):
             # some members had the field empty, so use real_name instead
             if username == "":
                 username = response.data.get("user").get("profile").get("real_name_normalized")
-        logger.debug("found userid: %s = %s", user_id, username)
+        logger.debug("Found userid: %s = %s", user_id, username)
     else:
         logger.debug("Could not find userid: %s", user_id)
 
