@@ -12,6 +12,7 @@ import re
 
 from slack_sdk import WebClient
 from slack_sdk.rtm import RTMClient
+
 # from slack_sdk.web.slack_response import SlackResponse
 from slack_sdk.errors import SlackClientError
 
@@ -27,9 +28,7 @@ FORMAT = (
 )
 fh.setFormatter(logging.Formatter(FORMAT))
 logger.addHandler(fh)
-logger.info(
-    "Log level set: %s", logging.getLevelName(logger.getEffectiveLevel())
-)
+logger.info("Log level set: %s", logging.getLevelName(logger.getEffectiveLevel()))
 
 
 def unescape(string: str):
@@ -69,12 +68,16 @@ def get_user(user_id):
         headers={"cookie": os.environ.get("SLACK_COOKIE", "")},
     ).users_info(user=user_id)
     if response.data.get("ok"):
-        username = response.data.get("user").get("profile").get("display_name_normalized")
+        username = (
+            response.data.get("user").get("profile").get("display_name_normalized")
+        )
         if username == "":
             username = response.data.get("user").get("name")
             # some members had the field empty, so use real_name instead
             if username == "":
-                username = response.data.get("user").get("profile").get("real_name_normalized")
+                username = (
+                    response.data.get("user").get("profile").get("real_name_normalized")
+                )
         logger.debug("Found userid: %s = %s", user_id, username)
     else:
         logger.debug("Could not find userid: %s", user_id)
