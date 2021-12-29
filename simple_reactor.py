@@ -171,7 +171,7 @@ def text_print(**payload):
     if isYubikey(text):
         text = bcolors.FAIL + text + bcolors.ENDC
         try:
-            result = react_with(payload=payload, emoji="yubikey")
+            result = react_with(payload=payload, emoji="scream")
             logger.debug("Reaction result: %s", str(result))
             ts_print(f"{user}@{channel}: {text}")
         except (SlackClientError) as error:
