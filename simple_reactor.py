@@ -2,6 +2,7 @@
 Simple slack client that uses rtm client and reacts on specific messages
 """
 
+from dataclasses import dataclass
 import json
 import logging
 import os
@@ -9,6 +10,9 @@ from functools import lru_cache
 import time
 import datetime
 import re
+
+import threading
+from flask import Flask
 
 from slack_sdk import WebClient
 from slack_sdk.rtm import RTMClient
@@ -214,5 +218,28 @@ def main():
         print(err)
 
 
+# host_name = "0.0.0.0"
+# port = 23336
+# app = Flask(__name__)
+
+# @app.route("/")
+# def stats():
+#     return str(get_user.cache_info())
+
+
+def thread_cache_webAPP():
+    app = Flask(__name__)
+
+    @app.route("/")
+    def user_stats():
+        return str(get_user.cache_info())
+
+    app.run(debug=True, use_reloader=False)
+
+
 if __name__ == "__main__":
+    # threading.Thread(target=lambda: app.run(host=host_name, port=port, debug=True, use_reloader=False)).start()
+    t_c_webApp = threading.Thread(name='Web App', target=thread_cache_webAPP)
+    t_c_webApp.setDaemon(True)
+    t_c_webApp.start()
     main()
